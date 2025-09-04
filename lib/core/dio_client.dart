@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:patroleum_dashboard/core/error_interceptor.dart';
+import 'package:patroleum_dashboard/core/singleton/local_storage_singleton.dart';
 
 class DioClient {
   final Dio dio;
@@ -17,9 +18,7 @@ class DioClient {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // TODO(PENDIENTE): Obtener el token para las peticiones desde las localNotifications
-          final token = '';
-          // final token = TokenStorage.getToken();
+          final token = LocalStorageSingleton.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['x-token'] = token;
           }

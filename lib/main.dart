@@ -1,15 +1,16 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:patroleum_dashboard/app/modules/auth/login/login_view.dart';
+import 'package:patroleum_dashboard/core/singleton/dio_singleton.dart';
+import 'package:patroleum_dashboard/core/singleton/local_storage_singleton.dart';
 import 'package:patroleum_dashboard/core/singleton/responsive_singleton.dart';
 import 'package:patroleum_dashboard/data/enums.dart';
 import 'package:patroleum_dashboard/data/local/session_cubit/session_cubit.dart';
 import 'package:patroleum_dashboard/routers/router.dart';
 
-void main() {
+void main() async{
   Flurorouter.configureRoutes();
+  await LocalStorageSingleton.initPrefts();
+
   runApp(const MyApp());
 }
 
@@ -38,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     // globalBloc = buildContext.read<GlobalBloc>();
     ResponsiveSingleton.init(context: buildContext);
     ResponsiveSingleton.context = buildContext;
+    DioSingleton.createDio();
   }
 
   @override

@@ -1,10 +1,14 @@
 
+// ignore_for_file: avoid_print
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:patroleum_dashboard/core/singleton/local_storage_singleton.dart';
 import 'package:patroleum_dashboard/data/enums.dart';
 import 'package:patroleum_dashboard/provider/internet/rest_provider_login.dart';
+import 'package:patroleum_dashboard/services/keep_alive_service.dart';
 
 part 'session_state.dart';
 
@@ -21,11 +25,24 @@ class SessionCubit extends Cubit<SessionState> {
     await response.fold(
       (error) async{
         print(error);
-      }, (response) async{
+        emit(state.copyWith(sessionStatus: SessionStatus.none)); 
+
+      }, (user) async{
+        await LocalStorageSingleton.saveToken(
+          user.token,
+          user.refreshToken,
+          user.tokenDss,
+          user.signature,
+          user.user.idUser,
+
+        );
+        KeepAliveService().start();
         print( response );
+
+        
+        emit(state.copyWith(sessionStatus: SessionStatus.success)); 
       });
 
-    emit(state.copyWith(sessionStatus: SessionStatus.success));
   }
 
 }

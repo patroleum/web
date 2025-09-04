@@ -46,9 +46,6 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: ResponsiveSingleton.heightCustom( 0.2 ),
-              ),
               Center(
                 child: Image.asset(
                     'assets/images/patroleum.png',
