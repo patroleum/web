@@ -18,7 +18,7 @@ class RestLoginProvider {
 
       final response = await DioSingleton.dio.post(
         'https://api.patroleum.net/api/auth',
-        // '$baseUrl/auth',
+        // '/auth',
         options: Options(headers: {'Content-Type': 'application/json'}),
         data: jsonEncode(
             {'email': email, 'secret': password, 'firebase': 'test'}),
